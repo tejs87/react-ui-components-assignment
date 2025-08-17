@@ -1,9 +1,9 @@
 # React UI Components Assignment
 
-##  Overview
+## Overview
 This project is an internship assignment to build **two reusable UI components** using React, TypeScript, TailwindCSS, and Storybook.
 
-### Components:
+### Components
 - **InputField** → A flexible input with:
   - Variants: `filled`, `outlined`, `ghost`
   - Sizes: `sm`, `md`, `lg`
@@ -18,50 +18,45 @@ This project is an internship assignment to build **two reusable UI components**
 
 ---
 
-##  Tech Stack
-- React + TypeScript  
-- Tailwind CSS  
-- Storybook  
+## Tech Stack
+- React + TypeScript
+- Tailwind CSS
+- Storybook
 
 ---
 
-##  How to Run the Project
+## How to Run the Project
 
-1. Clone the repository:
+1. **Clone the repository**
    ```bash
-   Download the project from GitHub:
-```bash
-git clone https://github.com/tejs87/react-ui-components-assignment.git
-cd react-ui-components-assignment
+   git clone https://github.com/tejs87/react-ui-components-assignment.git
+   cd react-ui-components-assignment
 
-2. Install dependencies
+2. **Install dependencies**
 This will install React, TailwindCSS, Storybook, and other packages:
+   ```bash
+   npm install 
 
-    npm install
+3. **Run the React App**
+   ```bash
+   npm start
 
-3. Run the React App
-Start the React app:
- 
-  npm start
+4. **Run Storybook
+   ```bash
+   npm run storybook
 
-4. Run Storybook
-To see the UI components in Storybook:
+## Features
+- Built with React + TypeScript
+- Styled using Tailwind CSS
+- Components displayed in Storybook
 
-    npm run storybook
-
-*Features
-
-Built with React + TypeScript
-Styled using Tailwind CSS
-Components displayed in Storybook
-
-##  Screenshots
-
+## Screenshots
 ### React App
-React App Screenshot(screenshots/react-app.png)
+![React App Screenshot](screenshots/react-app.png)
 
 ### Storybook – InputField Component
-InputField Screenshot(screenshots/inputfield.png)
+![InputField Screenshot](screenshots/inputfield.png)
 
 ### Storybook – DataTable Component
-DataTable Screenshot(screenshots/datatable.png)
+![DataTable Screenshot](screenshots/datatable.png)
+
