@@ -29,5 +29,39 @@ This project is an internship assignment to build **two reusable UI components**
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/tejs87/react-ui-components-assignment.git
-   cd react-ui-components-assignment
+   Download the project from GitHub:
+```bash
+git clone https://github.com/tejs87/react-ui-components-assignment.git
+cd react-ui-components-assignment
+
+2. Install dependencies
+This will install React, TailwindCSS, Storybook, and other packages:
+
+    npm install
+
+3. Run the React App
+Start the React app:
+ 
+  npm start
+
+4. Run Storybook
+To see the UI components in Storybook:
+
+    npm run storybook
+
+*Features
+
+Built with React + TypeScript
+Styled using Tailwind CSS
+Components displayed in Storybook
+
+##  Screenshots
+
+### React App
+React App Screenshot(screenshots/react-app.png)
+
+### Storybook – InputField Component
+InputField Screenshot(screenshots/inputfield.png)
+
+### Storybook – DataTable Component
+DataTable Screenshot(screenshots/datatable.png)
