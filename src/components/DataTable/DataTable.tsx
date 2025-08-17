@@ -1,19 +1,19 @@
-import React, { useState } from "react";
+import React from "react";
 
-export interface Column<T> {
+export type Column<T> = {
   key: string;
   title: string;
-  dataIndex: keyof T;
+  dataIndex: keyof T | string; // allow string OR keyof T
   sortable?: boolean;
-}
+};
 
-export interface DataTableProps<T> {
+type DataTableProps<T> = {
   data: T[];
   columns: Column<T>[];
   loading?: boolean;
   selectable?: boolean;
-  onRowSelect?: (selectedRows: T[]) => void;
-}
+  onRowSelect?: (rows: T[]) => void;
+};
 
 export function DataTable<T extends { id: string | number }>({
   data,
@@ -22,86 +22,51 @@ export function DataTable<T extends { id: string | number }>({
   selectable = false,
   onRowSelect,
 }: DataTableProps<T>) {
-  const [sortColumn, setSortColumn] = useState<string | null>(null);
-  const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
-  const [selectedRows, setSelectedRows] = useState<Set<string | number>>(new Set());
+  const [selectedRows, setSelectedRows] = React.useState<T[]>([]);
 
-  // ✅ Sorting logic
-  const handleSort = (column: Column<T>) => {
-    if (!column.sortable) return;
-    const newDirection = sortColumn === column.key && sortDirection === "asc" ? "desc" : "asc";
-    setSortColumn(column.key);
-    setSortDirection(newDirection);
-  };
-
-  const sortedData = [...data].sort((a, b) => {
-    if (!sortColumn) return 0;
-    const valA = a[columns.find(c => c.key === sortColumn)!.dataIndex];
-    const valB = b[columns.find(c => c.key === sortColumn)!.dataIndex];
-    if (valA < valB) return sortDirection === "asc" ? -1 : 1;
-    if (valA > valB) return sortDirection === "asc" ? 1 : -1;
-    return 0;
-  });
-
-  // ✅ Selection logic
-  const toggleRow = (id: string | number, row: T) => {
-    const updated = new Set(selectedRows);
-    if (updated.has(id)) {
-      updated.delete(id);
+  const toggleRow = (row: T) => {
+    let updated: T[];
+    if (selectedRows.includes(row)) {
+      updated = selectedRows.filter((r) => r !== row);
     } else {
-      updated.add(id);
+      updated = [...selectedRows, row];
     }
     setSelectedRows(updated);
-    if (onRowSelect) {
-      const selected = data.filter((item) => updated.has(item.id));
-      onRowSelect(selected);
-    }
+    if (onRowSelect) onRowSelect(updated);
   };
 
-  // ✅ Handle loading state
   if (loading) {
-    return <p className="p-4 text-center">Loading...</p>;
-  }
-
-  // ✅ Handle empty state
-  if (data.length === 0) {
-    return <p className="p-4 text-center">No data available</p>;
+    return <div className="p-4 text-gray-500">Loading...</div>;
   }
 
   return (
-    <table className="min-w-full border border-gray-300">
+    <table className="min-w-full border border-gray-300 rounded-md">
       <thead className="bg-gray-100">
         <tr>
-          {selectable && <th className="p-2 border">Select</th>}
+          {selectable && <th className="px-4 py-2">Select</th>}
           {columns.map((col) => (
-            <th
-              key={col.key}
-              className="p-2 border cursor-pointer"
-              onClick={() => handleSort(col)}
-            >
+            <th key={col.key} className="px-4 py-2 border-b text-left">
               {col.title}
-              {col.sortable && sortColumn === col.key && (
-                <span>{sortDirection === "asc" ? " 🔼" : " 🔽"}</span>
-              )}
             </th>
           ))}
         </tr>
       </thead>
       <tbody>
-        {sortedData.map((row) => (
-          <tr key={row.id} className="odd:bg-white even:bg-gray-50">
+        {data.map((row) => (
+          <tr key={row.id} className="hover:bg-gray-50">
             {selectable && (
-              <td className="p-2 border text-center">
+              <td className="px-4 py-2">
                 <input
                   type="checkbox"
-                  checked={selectedRows.has(row.id)}
-                  onChange={() => toggleRow(row.id, row)}
+                  checked={selectedRows.includes(row)}
+                  onChange={() => toggleRow(row)}
                 />
               </td>
             )}
             {columns.map((col) => (
-              <td key={col.key} className="p-2 border">
-                {String(row[col.dataIndex])}
+              <td key={col.key} className="px-4 py-2 border-b">
+                {/* @ts-ignore to allow loose typing for now */}
+                {row[col.dataIndex as keyof T]}
               </td>
             ))}
           </tr>
